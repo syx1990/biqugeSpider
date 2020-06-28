@@ -25,7 +25,7 @@ class bqgSpider(scrapy.Spider):
             item['url'] = bqg[i]
             if not os.path.exists(name[i]):
                 os.makedirs(name[i])
-            yield scrapy.Request(url=item['url'], meta={'meta1': item}, callback=self.parseBqg,dont_filter=True)
+            yield scrapy.Request(url=item['url'], meta={'meta1': item}, callback=self.parseBqg,dont_filter=False)
 
     # 对于返回的小类的url，再进行递归请求
     def parseBqg(self, response):
@@ -38,7 +38,7 @@ class bqgSpider(scrapy.Spider):
             item['name'] = meta1['name']
             item['url'] = meta1['url']
             yield scrapy.Request(url=item['title_url'], meta={'meta2': item}, callback=self.parseBqgInfo,
-                                 dont_filter=True)
+                                 dont_filter=False)
 
     # 获取所有内容
     def parseBqgInfo(self, response):
